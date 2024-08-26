@@ -1,0 +1,4 @@
+{
+    "mongoURI":"mongodb+srv://sarthak123:sarthak1234@cluster0.balves1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+    "jwtSecret":"sdjhjkdjaslkd"
+}
