@@ -1,5 +1,5 @@
 const jwt=require('jsonwebtoken');
-const config=require('config');
+const {jwtSecret}= require("../config/keys")
 
 module.exports=function(req,res,next){
     //Get the token from the header
@@ -10,7 +10,7 @@ module.exports=function(req,res,next){
         return res.status(401).json({msg:'no token authorization denied'});
     }
     try{
-        const decode=jwt.verify(token,config.get('jwtSecret'));//verify the token with current login token and retreive the payload from token and puts in decode
+        const decode=jwt.verify(token,jwtSecret);//verify the token with current login token and retreive the payload from token and puts in decode
         req.user=decode.user;
         next();
     }catch(err){

@@ -4,6 +4,7 @@ const jwt=require('jsonwebtoken');
 const config=require('config')
 const User =require('../models/User');
 const auth=require('../middleware/auth');
+const {jwtSecret}= require("../config/keys")
 const {check,validationResult}=require('express-validator');
 const router=express.Router();
 //@route GET api/auth
@@ -45,7 +46,7 @@ router.post('/',[
                 id:user.id,
             }
         }
-        jwt.sign(payload,config.get('jwtSecret'),{
+        jwt.sign(payload,jwtSecret,{
             expiresIn:3600000
         },(err,token)=>{
             if(err) throw err;

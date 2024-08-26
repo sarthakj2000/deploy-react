@@ -5,6 +5,7 @@ const jwt=require('jsonwebtoken');
 const config=require('config')
 const User =require('../models/User');
 const {check,validationResult}=require('express-validator');
+const {jwtSecret}=require("../config/keys")
 //@route POST api/users
 //@desc register a user
 //@access public
@@ -38,7 +39,7 @@ async (req,res)=>{
                 id:user.id,
             }
         }
-        jwt.sign(payload,config.get("jwtSecret"),{
+        jwt.sign(payload,jwtSecret,{
             expiresIn:360000
         },(err,token)=>{
             if(err) throw err;
