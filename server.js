@@ -1,20 +1,26 @@
-const express = require('express');
-const path = require('path');
-const app = express();
+const express=require('express');
+const connectDB=require('./config/db');
 
-// Serve static assets if in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
+const app=express();
+//connect database
+connectDB();
+const PORT=process.env.PORT || 5000;
+//Init Middleware
+app.use(express.json({extented:true}));//for req.body
+app.get("/",(req,res)=>{res.send("heloo")})
 
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
+// app.get('/',(req,res)=>res.json({msg:'welcome to the contact keeper api'}));
+//Define Routes
+app.use('/api/users',require('./routes/users'));
+app.use('/api/auth',require('./routes/auth'));
+app.use('/api/contacts',require('./routes/contacts'));
+
+if(process.env.NODE_ENV=="production"){
+    const path=require("path")
+    app.get("/",(req,res)=>{
+        app.use(express.static(path.resolve(__dirname,'client','build','index.html')))
+        res.sendFile(path.resolve(__dirname,'client','build','index.html'))
+    })
 }
 
-// Define API routes
-app.use('/api/users', require('./routes/users'));
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/contacts', require('./routes/contacts'));
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+app.listen(PORT,()=>console.log(`Server started on ${PORT}`));
