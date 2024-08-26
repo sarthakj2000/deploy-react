@@ -1,7 +1,6 @@
 node_modules/
 dev.js
 
-/client/build
 
 /client/.env.local
 /client/.env.development.local
